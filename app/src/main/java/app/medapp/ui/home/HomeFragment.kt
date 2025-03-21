@@ -4,35 +4,45 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import app.medapp.databinding.FragmentHomeBinding
+import app.medapp.ui.home.HomeFragmentDirections
+import app.medapp.ui.QuizAdapter
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
+    private val quizList = listOf(
+        "Escala GDS 15",
+        "Escala de Katz",
+        "Escala de Lawton",
+        "MEEM",
+        "Teste MoCA",
+        "Escala ASHA FACS",
+        "Escala Tinete"
+    )
+
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        return binding.root
+    }
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.adapter = QuizAdapter(quizList) { quizName ->
+            // Navigate to QuizFragment
+            val action = HomeFragmentDirections.actionHomeToQuiz(quizName)
+            findNavController().navigate(action)
         }
-        return root
     }
 
     override fun onDestroyView() {
