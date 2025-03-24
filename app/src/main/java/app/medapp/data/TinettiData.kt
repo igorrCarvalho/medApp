@@ -77,7 +77,6 @@ object TinettiData {
                 alternatives = listOf(
                     AnswerOption("Passos descontinuos", 0),
                     AnswerOption("Passos continuos", 1),
-                    // If you need further clarification, consider splitting this into two separate items.
                     AnswerOption("Instável", 0),
                     AnswerOption("Estável", 1)
                 )
@@ -100,15 +99,13 @@ object TinettiData {
                     AnswerOption("Sem hesitação", 1)
                 )
             ),
-            // Composite question: For question 11, we model as two separate questions (11a and 11b)
             Question(
                 id = 11,
                 text = "11. Comprimento dos passos",
-                // No direct alternatives at the main level – the score is computed as the sum of subquestions.
                 alternatives = emptyList(),
                 subQuestions = listOf(
                     Question(
-                        id = 11,  // You can use the same id or a derivative if needed.
+                        id = 11,
                         text = "a) Pé esquerdo",
                         alternatives = listOf(
                             AnswerOption("Não ultrapassa o pé esquerdo", 0),
@@ -118,7 +115,7 @@ object TinettiData {
                         )
                     ),
                     Question(
-                        id = 11,  // Alternatively, you could assign a new id like 12, but for composite scoring, they’re grouped under 11.
+                        id = 11,
                         text = "b) Pé direito",
                         alternatives = listOf(
                             AnswerOption("Não ultrapassa o pé direito", 0),

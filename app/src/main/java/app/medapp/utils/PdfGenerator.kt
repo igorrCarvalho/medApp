@@ -18,48 +18,39 @@ object PdfGenerator {
         val page = pdfDocument.startPage(pageInfo)
         val canvas: Canvas = page.canvas
 
-        // Text paint (black)
         val textPaint = Paint().apply {
             color = Color.BLACK
             textSize = 16f
         }
 
-        // Purple line paint
         val linePaint = Paint().apply {
-            color = Color.parseColor("#6200EE") // Purple color
+            color = Color.parseColor("#6200EE")
             strokeWidth = 2f
             style = Paint.Style.STROKE
         }
 
         var yPos = 40f
 
-        // 1) Draw "MedApp" left-aligned
         canvas.drawText("MedApp", 40f, yPos, textPaint)
         yPos += 30f
 
-        // 2) Draw top line of the "border"
         val lineTopY = yPos
-        val lineBottomY = lineTopY + 50f  // The space for two lines of text
+        val lineBottomY = lineTopY + 50f
         canvas.drawLine(40f, lineTopY, pageInfo.pageWidth - 40f, lineTopY, linePaint)
 
-        // Patient data lines in between
         val pacientLine = "Paciente: ${test.pacientName}       Data: ${test.date}"
         val doctorLine = "Médico Responsável: ${test.doctorName}    Idade do Paciente: ${test.pacientAge}"
-        // We'll position them about 20px and 40px below the top line
+
         canvas.drawText(pacientLine, 40f, lineTopY + 20f, textPaint)
         canvas.drawText(doctorLine, 40f, lineTopY + 40f, textPaint)
 
-        // 3) Draw bottom line of the "border"
         canvas.drawLine(40f, lineBottomY, pageInfo.pageWidth - 40f, lineBottomY, linePaint)
 
-        // Move yPos below that block
         yPos = lineBottomY + 30f
 
-        // 4) Draw the test name
         canvas.drawText(test.testName, 40f, yPos, textPaint)
         yPos += 40f
 
-        // 5) Draw result and reference
         val resultLine = "Resultado: $totalScore"
         val refLine = "referencia: ${test.testLimits}"
 
@@ -69,7 +60,6 @@ object PdfGenerator {
 
         pdfDocument.finishPage(page)
 
-        // Save the PDF
         try {
             val file = File(context.getExternalFilesDir(null), "${test.testName}.pdf")
             pdfDocument.writeTo(FileOutputStream(file))

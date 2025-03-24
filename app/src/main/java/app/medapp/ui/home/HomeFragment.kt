@@ -41,10 +41,8 @@ class HomeFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = QuizAdapter(quizList) { quizName ->
             if (quizName == "Escala Tinete") {
-                // Navigate directly to TinettiFragment
                 findNavController().navigate(R.id.tinettiFragment)
             } else {
-                // Use the Safe Args action for other quizzes
                 val action = HomeFragmentDirections.actionHomeToQuiz(quizName)
                 findNavController().navigate(action)
             }
