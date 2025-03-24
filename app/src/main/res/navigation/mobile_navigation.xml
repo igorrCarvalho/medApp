@@ -15,6 +15,13 @@
             android:id="@+id/action_home_to_quiz"
             app:destination="@id/navigation_quiz" />
     </fragment>
+    <fragment
+        android:id="@+id/tinettiFragment"
+        android:name="app.medapp.ui.tinetti.TinettiFragment"
+        android:label="Tinetti Test"
+        tools:layout="@layout/fragment_tinetti" >
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_quiz"

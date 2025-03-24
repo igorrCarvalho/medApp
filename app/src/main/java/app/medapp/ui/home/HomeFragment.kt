@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import app.medapp.databinding.FragmentHomeBinding
 import app.medapp.ui.home.HomeFragmentDirections
 import app.medapp.ui.QuizAdapter
+import app.medapp.R
 
 class HomeFragment : Fragment() {
 
@@ -39,9 +40,14 @@ class HomeFragment : Fragment() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = QuizAdapter(quizList) { quizName ->
-            // Navigate to QuizFragment
-            val action = HomeFragmentDirections.actionHomeToQuiz(quizName)
-            findNavController().navigate(action)
+            if (quizName == "Escala Tinete") {
+                // Navigate directly to TinettiFragment
+                findNavController().navigate(R.id.tinettiFragment)
+            } else {
+                // Use the Safe Args action for other quizzes
+                val action = HomeFragmentDirections.actionHomeToQuiz(quizName)
+                findNavController().navigate(action)
+            }
         }
     }
 
