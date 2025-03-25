@@ -1,59 +1,64 @@
-package app.medapp.ui.tinetti
+package app.medapp.ui.generic
 
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import app.medapp.data.TinettiData
+import app.medapp.data.TestsRepository
 import app.medapp.databinding.FragmentTinettiBinding
+import app.medapp.ui.tinetti.TinettiAdapter
 import app.medapp.utils.PdfGenerator
 
-class TinettiFragment : Fragment() {
+class GenericTestFragment : Fragment() {
 
     private var _binding: FragmentTinettiBinding? = null
     private val binding get() = _binding!!
 
+    // Map to store user answers (questionId -> selected value)
     private val answersMap = mutableMapOf<Int, Int>()
 
-    private var tinettiTest = TinettiData.tinettiTest
+    // The Test object loaded dynamically from repository.
+    private lateinit var currentTest: app.medapp.data.Test
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Retrieve testId from arguments (using Safe Args)
+        val testId = arguments?.getInt("testId") ?: 1
+        currentTest = TestsRepository.getTestById(testId)
+    }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: android.view.LayoutInflater, container: android.view.ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentTinettiBinding.inflate(inflater, container, false)
+    ): android.view.View {
+        _binding = app.medapp.databinding.FragmentTinettiBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: android.view.View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Capture user input for basic data.
         binding.editPacientName.doOnTextChanged { text, _, _, _ ->
-            tinettiTest = tinettiTest.copy(pacientName = text.toString())
+            currentTest = currentTest.copy(pacientName = text.toString())
         }
         binding.editDoctorName.doOnTextChanged { text, _, _, _ ->
-            tinettiTest = tinettiTest.copy(doctorName = text.toString())
+            currentTest = currentTest.copy(doctorName = text.toString())
         }
         binding.editPacientAge.doOnTextChanged { text, _, _, _ ->
             val age = text.toString().toIntOrNull() ?: 0
-            tinettiTest = tinettiTest.copy(pacientAge = age)
+            currentTest = currentTest.copy(pacientAge = age)
         }
-
         binding.editDate.addTextChangedListener(object : TextWatcher {
             private var isEditing = false
-
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
             override fun afterTextChanged(s: Editable?) {
                 if (isEditing) return
                 isEditing = true
-
                 var clean = s.toString().replace("[^\\d]".toRegex(), "")
                 if (clean.length > 8) clean = clean.substring(0, 8)
                 val formatted = when {
@@ -63,22 +68,22 @@ class TinettiFragment : Fragment() {
                 }
                 binding.editDate.setText(formatted)
                 binding.editDate.setSelection(formatted.length)
-                tinettiTest = tinettiTest.copy(date = formatted)
+                currentTest = currentTest.copy(date = formatted)
                 isEditing = false
             }
         })
 
-        val questions = tinettiTest.questions
-
-        val adapter = TinettiAdapter(questions) { questionId, selectedOption ->
+        // Setup RecyclerView with questions from the Test object.
+        val adapter = TinettiAdapter(currentTest.questions) { questionId, selectedOption ->
             answersMap[questionId] = selectedOption.value
         }
         binding.recyclerViewTinetti.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewTinetti.adapter = adapter
 
+        // Submit button: calculate total score and generate PDF.
         binding.buttonSubmit.setOnClickListener {
             val totalScore = answersMap.values.sum()
-            PdfGenerator.generatePdf(requireContext(), tinettiTest, answersMap, totalScore)
+            PdfGenerator.generatePdf(requireContext(), currentTest, answersMap, totalScore)
             Toast.makeText(requireContext(), "PDF generated", Toast.LENGTH_SHORT).show()
         }
     }

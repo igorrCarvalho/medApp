@@ -5,40 +5,34 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
 
+    <!-- Home Fragment: Test Selector -->
     <fragment
         android:id="@+id/navigation_home"
         android:name="app.medapp.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home">
-
         <action
-            android:id="@+id/action_home_to_quiz"
-            app:destination="@id/navigation_quiz" />
-    </fragment>
-    <fragment
-        android:id="@+id/tinettiFragment"
-        android:name="app.medapp.ui.tinetti.TinettiFragment"
-        android:label="Tinetti Test"
-        tools:layout="@layout/fragment_tinetti" >
-
+            android:id="@+id/action_home_to_genericTestFragment"
+            app:destination="@id/genericTestFragment" />
     </fragment>
 
+    <!-- Generic Test Fragment: Displays any test -->
     <fragment
-        android:id="@+id/navigation_quiz"
-        android:name="app.medapp.ui.quiz.QuizFragment"
-        android:label="Quiz"
-        tools:layout="@layout/fragment_quiz">
+        android:id="@+id/genericTestFragment"
+        android:name="app.medapp.ui.generic.GenericTestFragment"
+        android:label="Teste"
+        tools:layout="@layout/fragment_tinetti">
         <argument
-            android:name="quizName"
-            app:argType="string" />
+            android:name="testId"
+            app:argType="integer" />
     </fragment>
 
+    <!-- Additional fragments (dashboard, notifications) -->
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="app.medapp.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
-
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="app.medapp.ui.notifications.NotificationsFragment"

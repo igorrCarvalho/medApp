@@ -7,24 +7,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import app.medapp.databinding.FragmentHomeBinding
-import app.medapp.ui.home.HomeFragmentDirections
-import app.medapp.ui.QuizAdapter
 import app.medapp.R
+import app.medapp.databinding.FragmentHomeBinding
+import app.medapp.ui.QuizAdapter
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    // List of test names in the order matching your TestsRepository:
     private val quizList = listOf(
-        "Escala GDS 15",
-        "Escala de Katz",
-        "Escala de Lawton",
-        "MEEM",
-        "Teste MoCA",
-        "Escala ASHA FACS",
-        "Escala Tinete"
+        "Escala Tinete",                           // Test ID 1
+        "Escala de depressão geriátrica (GDS)",     // Test ID 2
+        "Escala de Lawton"  // Test ID 3
     )
 
     override fun onCreateView(
@@ -40,12 +36,11 @@ class HomeFragment : Fragment() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = QuizAdapter(quizList) { quizName ->
-            if (quizName == "Escala Tinete") {
-                findNavController().navigate(R.id.tinettiFragment)
-            } else {
-                val action = HomeFragmentDirections.actionHomeToQuiz(quizName)
-                findNavController().navigate(action)
-            }
+            // Instead of hardcoding, use the index to derive test ID.
+            val index = quizList.indexOf(quizName)
+            val testId = index + 1  // assuming the list order matches test IDs
+            val action = HomeFragmentDirections.actionHomeToGenericTestFragment(testId)
+            findNavController().navigate(action)
         }
     }
 

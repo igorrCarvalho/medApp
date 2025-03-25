@@ -8,5 +8,5 @@ data class Test(
     val questions: List<Question>,
     val pacientAge: Int,
     val date: String,
-    val testLimits: String,
+    val testLimits: TestLimits,
 )

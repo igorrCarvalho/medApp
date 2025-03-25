@@ -8,7 +8,13 @@ object TinettiData {
         doctorName = "",
         pacientAge = 0,
         date = "",
-        testLimits = "Score < 19 => 5 vezes mais risco de quedas",
+        testLimits = TestLimits(
+            reference = "Score < 19 => 5 vezes mais risco de quedas",
+            cutNumber = 19,
+            greatMsg = "Baixo Risco de Queda",
+            mediumMsg = "Risco de Queda Iminente",
+            highMsg = "Alto Risco de Queda"
+        ),
         questions = listOf(
             Question(
                 id = 1,
