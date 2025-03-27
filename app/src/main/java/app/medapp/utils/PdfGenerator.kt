@@ -1,6 +1,8 @@
 package app.medapp.utils
 
 import android.content.Context
+import android.media.MediaScannerConnection
+import android.os.Environment
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -18,51 +20,58 @@ object PdfGenerator {
         val page = pdfDocument.startPage(pageInfo)
         val canvas: Canvas = page.canvas
 
+        // Set up Paint objects
         val textPaint = Paint().apply {
             color = Color.BLACK
             textSize = 16f
         }
-
         val linePaint = Paint().apply {
-            color = Color.parseColor("#6200EE")
+            color = Color.parseColor("#6200EE") // Purple color
             strokeWidth = 2f
             style = Paint.Style.STROKE
         }
 
         var yPos = 40f
 
+        // Draw "MedApp" left-aligned
         canvas.drawText("MedApp", 40f, yPos, textPaint)
         yPos += 30f
 
-        val lineTopY = yPos
-        val lineBottomY = lineTopY + 50f
-        canvas.drawLine(40f, lineTopY, pageInfo.pageWidth - 40f, lineTopY, linePaint)
+        // Draw top purple line (for patient info block)
+        val blockTopY = yPos
+        canvas.drawLine(40f, blockTopY, pageInfo.pageWidth - 40f, blockTopY, linePaint)
 
-        val pacientLine = "Paciente: ${test.pacientName}       Data: ${test.date}"
-        val doctorLine = "Médico Responsável: ${test.doctorName}    Idade do Paciente: ${test.pacientAge}"
+        // Draw patient info text
+        val pacientLine = "Paciente: ${test.pacientName}"
+        val dateLine = "Data: ${test.date}"
+        val doctorLine = "Médico Responsável: ${test.doctorName}"
+        val ageLine = "Idade do Paciente: ${test.pacientAge}"
+        canvas.drawText("$pacientLine    $dateLine", 40f, blockTopY + 20f, textPaint)
+        canvas.drawText("$doctorLine    $ageLine", 40f, blockTopY + 40f, textPaint)
 
-        canvas.drawText(pacientLine, 40f, lineTopY + 20f, textPaint)
-        canvas.drawText(doctorLine, 40f, lineTopY + 40f, textPaint)
+        // Draw bottom purple line (for patient info block)
+        val blockBottomY = blockTopY + 50f
+        canvas.drawLine(40f, blockBottomY, pageInfo.pageWidth - 40f, blockBottomY, linePaint)
+        yPos = blockBottomY + 30f
 
-        canvas.drawLine(40f, lineBottomY, pageInfo.pageWidth - 40f, lineBottomY, linePaint)
-
-        yPos = lineBottomY + 30f
-
+        // Draw test title
         canvas.drawText(test.testName, 40f, yPos, textPaint)
         yPos += 40f
 
-        val resultLine = "Resultado: $totalScore"
-        val refLine = "referencia: ${test.testLimits}"
-
-        canvas.drawText(resultLine, 40f, yPos, textPaint)
+        // Draw result and reference lines
+        canvas.drawText("Resultado: $totalScore", 40f, yPos, textPaint)
         yPos += 20f
-        canvas.drawText(refLine, 40f, yPos, textPaint)
+        canvas.drawText("referencia: ${test.testLimits.reference}", 40f, yPos, textPaint)
 
         pdfDocument.finishPage(page)
 
         try {
-            val file = File(context.getExternalFilesDir(null), "${test.testName}.pdf")
+            // Save the file in the public Downloads directory
+            val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            val file = File(downloadsDir, "${test.testName}.pdf")
             pdfDocument.writeTo(FileOutputStream(file))
+            // Optionally, scan the file so it appears in the Downloads folder
+            MediaScannerConnection.scanFile(context, arrayOf(file.absolutePath), null, null)
             Toast.makeText(context, "PDF saved: ${file.absolutePath}", Toast.LENGTH_LONG).show()
         } catch (e: Exception) {
             Toast.makeText(context, "Error saving PDF: ${e.message}", Toast.LENGTH_LONG).show()
@@ -70,5 +79,4 @@ object PdfGenerator {
             pdfDocument.close()
         }
     }
-
 }
