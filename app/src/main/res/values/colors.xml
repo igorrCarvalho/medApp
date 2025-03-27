@@ -6,5 +6,19 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#08001FFF</color>
+    <color name="background">#18181b</color>
+    <color name="foreground">#ffffff</color>
+    <color name="muted">#27272a</color>
+    <color name="muted_foreground">#a1a1aa</color>
+    <color name="card">#18181b</color>
+    <color name="border">#3f3f46</color>
+    <color name="input">#52525b</color>
+    <color name="accent">#27272a</color>
+    <color name="destructive">#ef4343</color>
+    <color name="ring">#ffffff</color>
+    <color name="hover">#e4e4e7</color>
+    <color name="secondary_hover">#27272a</color>
+    <color name="placeholder_foreground">#71717a</color>
+    <color name="primary">#000000</color>
 </resources>

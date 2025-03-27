@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
     <TextView
         android:id="@+id/testTitle"
@@ -15,7 +16,8 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/foreground"/>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollableContainer"
@@ -39,34 +41,77 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingBottom="8dp">
+
+                <TextView
+                    android:id="@+id/editPacientNameLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nome do Paciente"
+                    android:textColor="@color/muted_foreground" />
                 <EditText
                     android:id="@+id/editPacientName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nome do Paciente" />
+                    android:hint="Walter White"
+                    android:textColorHint="@color/placeholder_foreground"
+                    android:textColor="@color/foreground"
+                    android:background="@drawable/border_background"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:id="@+id/editDoctorNameLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nome do Doutor"
+                    android:textColor="@color/muted_foreground" />
                 <EditText
                     android:id="@+id/editDoctorName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nome do Doutor" />
+                    android:hint="Mike Ermantraut"
+                    android:textColorHint="@color/placeholder_foreground"
+                    android:textColor="@color/foreground"
+                    android:background="@drawable/border_background"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:id="@+id/editPacientAgeLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Idade do Paciente"
+                    android:textColor="@color/muted_foreground" />
                 <EditText
                     android:id="@+id/editPacientAge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Idade do Paciente"
-                    android:inputType="number" />
+                    android:hint="65"
+                    android:inputType="number"
+                    android:textColorHint="@color/placeholder_foreground"
+                    android:textColor="@color/foreground"
+                    android:background="@drawable/border_background"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:id="@+id/editDateLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Data"
+                    android:textColor="@color/muted_foreground" />
                 <EditText
                     android:id="@+id/editDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Data (DD/MM/AAAA)"
-                    android:inputType="none" />
+                    android:hint="(DD/MM/AAAA)"
+                    android:inputType="none"
+                    android:textColorHint="@color/placeholder_foreground"
+                    android:textColor="@color/foreground"
+                    android:background="@drawable/border_background"/>
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/teal_200" />
+                android:background="@color/border" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewTinetti"
