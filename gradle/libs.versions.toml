@@ -12,8 +12,10 @@ lifecycleLivedataKtx = "2.8.7"
 lifecycleViewmodelKtx = "2.8.7"
 navigationFragmentKtx = "2.6.0"
 navigationUiKtx = "2.6.0"
+androidPdfViewer = "2.8.2"
 
 [libraries]
+androidPdfViewer = { module = "com.github.barteksc:android-pdf-viewer", version.ref = "androidPdfViewer" }
 androidx-cardview = { module = "androidx.cardview:cardview", version = "1.0.0" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

@@ -12,6 +12,8 @@ import app.medapp.data.models.Test
 import app.medapp.databinding.FragmentTinettiBinding
 import app.medapp.ui.tinetti.TinettiAdapter
 import app.medapp.utils.PdfGenerator
+import app.medapp.ui.PdfPreviewActivity
+import android.content.Intent
 
 class GenericTestFragment : Fragment() {
 
@@ -37,6 +39,21 @@ class GenericTestFragment : Fragment() {
     ): android.view.View {
         _binding = app.medapp.databinding.FragmentTinettiBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    private fun allQuestionsAnswered(test: Test): Boolean {
+        test.questions.forEach { question ->
+            if (!question.subQuestions.isNullOrEmpty()) {
+                // For composite questions, check each subquestion
+                question.subQuestions.forEach { subQuestion ->
+                    if (answersMap[subQuestion.id] == null) return false
+                }
+            } else {
+                // For normal questions, check if an answer exists
+                if (answersMap[question.id] == null) return false
+            }
+        }
+        return true
     }
 
     override fun onViewCreated(view: android.view.View, savedInstanceState: Bundle?) {
@@ -85,9 +102,20 @@ class GenericTestFragment : Fragment() {
 
         // Submit button: calculate total score and generate PDF.
         binding.buttonSubmit.setOnClickListener {
-            val totalScore = answersMap.values.sum()
-            PdfGenerator.generatePdf(requireContext(), currentTest, answersMap, totalScore)
-            Toast.makeText(requireContext(), "PDF generated", Toast.LENGTH_SHORT).show()
+            if (!allQuestionsAnswered(currentTest)) {
+                Toast.makeText(requireContext(), "Por favor, responda todas as perguntas antes de enviar.", Toast.LENGTH_SHORT).show()
+            } else {
+                val totalScore = answersMap.values.sum()
+                val pdfFilePath = PdfGenerator.generatePdf(requireContext(), currentTest, answersMap, totalScore)
+                if (pdfFilePath != null) {
+                    // Launch the PDF Preview Activity with the generated file path.
+                    val intent = Intent(requireContext(), PdfPreviewActivity::class.java)
+                    intent.putExtra("pdfFilePath", pdfFilePath)
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(requireContext(), "Erro ao gerar PDF", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Grant access to the Downloads directory -->
+    <external-path name="download" path="Download/" />
+</paths>

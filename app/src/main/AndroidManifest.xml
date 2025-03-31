@@ -12,16 +12,30 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MedApp"
         tools:targetApi="31">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name="app.medapp.ui.PdfPreviewActivity" />
+
+        <!-- FileProvider declaration to share PDF files -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="app.medapp.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths" />
+        </provider>
+
     </application>
 
 </manifest>
