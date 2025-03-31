@@ -8,7 +8,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
 import android.widget.Toast
-import app.medapp.data.Test
+import app.medapp.data.models.Test
 import java.io.File
 import java.io.FileOutputStream
 

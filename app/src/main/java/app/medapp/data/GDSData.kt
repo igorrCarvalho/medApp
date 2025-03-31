@@ -1,17 +1,24 @@
 package app.medapp.data
 
+import app.medapp.data.models.AnswerOption
+import app.medapp.data.models.Question
+import app.medapp.data.models.Test
+import app.medapp.data.models.TestLimits
+
 object GDSData {
     val GDSTest = Test(
         id = 2,
-        testName = "Escala de depressão geriátrica (GDS)",
+        testName = "Escala de depressão geriátrica (GDS 15)",
         pacientName = "",
         doctorName = "",
         pacientAge = 0,
         date = "",
         testLimits = TestLimits(
-            reference = "0 a 5 pontos -> normal" +
-                    "6 a 10 pontos -> indica depressão leve" +
-                    "11 a 15 pontos -> depressão severa",
+            reference = listOf(
+                "0 a 5 pontos -> normal",
+                "6 a 10 pontos -> indica depressão leve",
+                "11 a 15 pontos -> depressão severa"
+            ),
             cutNumber = 11,
             greatMsg = "Normal",
             mediumMsg = "Possível quadro de depressão leve",

@@ -1,5 +1,10 @@
 package app.medapp.data
 
+import app.medapp.data.models.AnswerOption
+import app.medapp.data.models.Question
+import app.medapp.data.models.Test
+import app.medapp.data.models.TestLimits
+
 object LawtonData {
     val LawtonTest = Test(
         id = 3,
@@ -9,7 +14,7 @@ object LawtonData {
         pacientAge = 0,
         date = "",
         testLimits = TestLimits(
-            reference = "Quanto maior o escore melhor",
+            reference = listOf("Quanto maior o escore melhor"),
             cutNumber = 13,
             greatMsg = "Desempenho Ótimo",
             mediumMsg = "Desempenho Médio",

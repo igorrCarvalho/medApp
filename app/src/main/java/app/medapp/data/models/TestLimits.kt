@@ -1,7 +1,7 @@
-package app.medapp.data
+package app.medapp.data.models
 
 data class TestLimits (
-    val reference: String,
+    val reference: List<String>,
     val cutNumber: Int,
     val greatMsg: String,
     val mediumMsg: String,

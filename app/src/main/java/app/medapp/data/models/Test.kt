@@ -1,4 +1,4 @@
-package app.medapp.data
+package app.medapp.data.models
 
 data class Test(
     val id: Int,
@@ -9,4 +9,5 @@ data class Test(
     val pacientAge: Int,
     val date: String,
     val testLimits: TestLimits,
+    val testDescription: String? = null
 )

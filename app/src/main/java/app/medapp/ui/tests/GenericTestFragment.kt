@@ -8,6 +8,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.medapp.data.TestsRepository
+import app.medapp.data.models.Test
 import app.medapp.databinding.FragmentTinettiBinding
 import app.medapp.ui.tinetti.TinettiAdapter
 import app.medapp.utils.PdfGenerator
@@ -21,7 +22,7 @@ class GenericTestFragment : Fragment() {
     private val answersMap = mutableMapOf<Int, Int>()
 
     // The Test object loaded dynamically from repository.
-    private lateinit var currentTest: app.medapp.data.Test
+    private lateinit var currentTest: Test
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +41,8 @@ class GenericTestFragment : Fragment() {
 
     override fun onViewCreated(view: android.view.View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.testTitle.text = currentTest.testName
 
         // Capture user input for basic data.
         binding.editPacientName.doOnTextChanged { text, _, _, _ ->

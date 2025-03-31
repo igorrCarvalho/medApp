@@ -1,4 +1,4 @@
-package app.medapp.data
+package app.medapp.data.models
 
 data class AnswerOption(
     val text: String,

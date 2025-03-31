@@ -1,5 +1,10 @@
 package app.medapp.data
 
+import app.medapp.data.models.AnswerOption
+import app.medapp.data.models.Question
+import app.medapp.data.models.Test
+import app.medapp.data.models.TestLimits
+
 object TinettiData {
     val tinettiTest = Test(
         id = 1,
@@ -9,7 +14,7 @@ object TinettiData {
         pacientAge = 0,
         date = "",
         testLimits = TestLimits(
-            reference = "Score < 19 => 5 vezes mais risco de quedas",
+            reference = listOf("Score < 19 => 5 vezes mais risco de quedas"),
             cutNumber = 19,
             greatMsg = "Baixo Risco de Queda",
             mediumMsg = "Risco de Queda Iminente",
