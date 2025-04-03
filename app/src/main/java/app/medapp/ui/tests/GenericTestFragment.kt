@@ -108,9 +108,12 @@ class GenericTestFragment : Fragment() {
                 val totalScore = answersMap.values.sum()
                 val pdfFilePath = PdfGenerator.generatePdf(requireContext(), currentTest, answersMap, totalScore)
                 if (pdfFilePath != null) {
-                    // Launch the PDF Preview Activity with the generated file path.
+                    // Build reference text by joining the list elements with newlines
+                    val referenceText = currentTest.testLimits.reference.joinToString(separator = "\n")
                     val intent = Intent(requireContext(), PdfPreviewActivity::class.java)
                     intent.putExtra("pdfFilePath", pdfFilePath)
+                    intent.putExtra("totalScore", totalScore)
+                    intent.putExtra("referenceText", referenceText)
                     startActivity(intent)
                 } else {
                     Toast.makeText(requireContext(), "Erro ao gerar PDF", Toast.LENGTH_SHORT).show()

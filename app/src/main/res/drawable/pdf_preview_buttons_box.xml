@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Base background: muted -->
+    <item>
+        <color android:color="@color/muted"/>
+    </item>
+    <!-- Top border: a rectangle with height 2dp using the "border" color, aligned at the top -->
+    <item android:gravity="top">
+        <shape android:shape="rectangle">
+            <size android:height="2dp"/>
+            <solid android:color="@color/border"/>
+        </shape>
+    </item>
+</layer-list>

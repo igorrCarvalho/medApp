@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- When focused (selected), use "ring" -->
+    <item android:color="@color/placeholder_foreground" android:state_focused="true"/>
+    <!-- Default state: use "border" -->
+    <item android:color="@color/border"/>
+</selector>

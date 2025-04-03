@@ -18,12 +18,12 @@ class HomeFragment : Fragment() {
 
     // List of test names in the order matching your TestsRepository:
     private val quizList = listOf(
-        "Escala Tinete",
-        "Escala de depressão geriátrica (GDS)",
+        "Escala Tinetti",
+        "Escala de depressão geriátrica (GDS 15)",
         "Escala de Lawton",
         "Mini-exame do Estado Mental (MEEM)",
         "Teste do Sussurro",
-        "Índice de KATZ – Atividades Básicas de Vida Diária"
+        "Índice de KATZ"
     )
 
     override fun onCreateView(

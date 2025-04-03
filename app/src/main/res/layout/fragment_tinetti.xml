@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/testTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/foreground"/>
+        android:textColor="@color/foreground" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollableContainer"
@@ -34,6 +34,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <!-- Basic Data Inputs Container -->
             <LinearLayout
                 android:id="@+id/basicDataInputs"
                 android:layout_width="match_parent"
@@ -41,77 +42,89 @@
                 android:orientation="vertical"
                 android:paddingBottom="8dp">
 
-                <TextView
-                    android:id="@+id/editPacientNameLabel"
+                <!-- Pacient Name Input -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Nome do Paciente"
-                    android:textColor="@color/muted_foreground" />
-                <EditText
-                    android:id="@+id/editPacientName"
+                    android:layout_marginBottom="8dp"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@color/input_stroke_color"
+                    android:textColorHint="@color/edittext_hint_color">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editPacientName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Nome do paciente"
+                        android:textColor="@color/foreground"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+                <!-- Doctor Name Input -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Walter White"
-                    android:textColorHint="@color/placeholder_foreground"
-                    android:textColor="@color/foreground"
-                    android:background="@drawable/border_background"
-                    android:layout_marginBottom="8dp"/>
-
-                <TextView
-                    android:id="@+id/editDoctorNameLabel"
+                    android:layout_marginBottom="8dp"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@color/input_stroke_color"
+                    android:textColorHint="@color/edittext_hint_color">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editDoctorName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Nome do médico"
+                        android:textColor="@color/foreground"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <!-- Pacient Age Input -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Nome do Doutor"
-                    android:textColor="@color/muted_foreground" />
-                <EditText
-                    android:id="@+id/editDoctorName"
+                    android:layout_marginBottom="8dp"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@color/input_stroke_color"
+                    android:textColorHint="@color/edittext_hint_color">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editPacientAge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Idade do paciente"
+                        android:inputType="number"
+                        android:textColor="@color/foreground"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <!-- Date Input -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Mike Ermantraut"
-                    android:textColorHint="@color/placeholder_foreground"
-                    android:textColor="@color/foreground"
-                    android:background="@drawable/border_background"
-                    android:layout_marginBottom="8dp"/>
-
-                <TextView
-                    android:id="@+id/editPacientAgeLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Idade do Paciente"
-                    android:textColor="@color/muted_foreground" />
-                <EditText
-                    android:id="@+id/editPacientAge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="65"
-                    android:inputType="number"
-                    android:textColorHint="@color/placeholder_foreground"
-                    android:textColor="@color/foreground"
-                    android:background="@drawable/border_background"
-                    android:layout_marginBottom="8dp"/>
-
-                <TextView
-                    android:id="@+id/editDateLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Data"
-                    android:textColor="@color/muted_foreground" />
-                <EditText
-                    android:id="@+id/editDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="(DD/MM/AAAA)"
-                    android:inputType="none"
-                    android:textColorHint="@color/placeholder_foreground"
-                    android:textColor="@color/foreground"
-                    android:background="@drawable/border_background"/>
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@color/input_stroke_color"
+                    android:textColorHint="@color/edittext_hint_color">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Data"
+                        android:inputType="none"
+                        android:textColor="@color/foreground"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"/>
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
-            <View
+            <!-- Divider -->
+            <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/border" />
 
+            <!-- RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewTinetti"
                 android:layout_width="match_parent"
@@ -119,15 +132,16 @@
                 android:nestedScrollingEnabled="false"
                 android:clipToPadding="false" />
 
-            <Button
+            <!-- Submit Button -->
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonSubmit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enviar"
+                android:text="Gerar resultado"
                 android:textColor="@color/foreground"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="10dp" />
-
+                android:layout_marginBottom="10dp"
+                android:textAllCaps="false"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
