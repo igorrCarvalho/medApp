@@ -14,6 +14,8 @@ import app.medapp.ui.tinetti.TinettiAdapter
 import app.medapp.utils.PdfGenerator
 import app.medapp.ui.PdfPreviewActivity
 import android.content.Intent
+import app.medapp.data.models.TestLimits;
+import app.medapp.data.models.ReferenceMapping;
 
 class GenericTestFragment : Fragment() {
 
@@ -32,6 +34,59 @@ class GenericTestFragment : Fragment() {
         val testId = arguments?.getInt("testId") ?: 1
         currentTest = TestsRepository.getTestById(testId)
     }
+
+    fun getTestLimitsForEducation(educationAnswer: String): TestLimits {
+        return when (educationAnswer) {
+            "Analfabeto" -> TestLimits(
+                reference = listOf(
+                    "Normal: 19 - 30 pontos",
+                    "Suspeita de perda cognitiva: 0 - 18 pontos"
+                ),
+                resultMappings = listOf(
+                    ReferenceMapping(minScore = 19, maxScore = 30, message = "Normal"),
+                    ReferenceMapping(minScore = 0, maxScore = 18, message = "Suspeita de perda cognitiva")
+                )
+            )
+            "1 a 3 anos" -> TestLimits(
+                reference = listOf(
+                    "Normal: 23 - 30 pontos",
+                    "Suspeita de perda cognitiva: 0 - 22 pontos"
+                ),
+                resultMappings = listOf(
+                    ReferenceMapping(minScore = 23, maxScore = 30, message = "Normal"),
+                    ReferenceMapping(minScore = 0, maxScore = 22, message = "Suspeita de perda cognitiva")
+                )
+            )
+            "4 a 7 anos" -> TestLimits(
+                reference = listOf(
+                    "Normal: 24 - 30 pontos",
+                    "Suspeita de perda cognitiva: 0 - 23 pontos"
+                ),
+                resultMappings = listOf(
+                    ReferenceMapping(minScore = 24, maxScore = 30, message = "Normal"),
+                    ReferenceMapping(minScore = 0, maxScore = 23, message = "Suspeita de perda cognitiva")
+                )
+            )
+            "Acima de 7 anos" -> TestLimits(
+                reference = listOf(
+                    "Normal: 28 - 30 pontos",
+                    "Suspeita de perda cognitiva: 0 - 27 pontos"
+                ),
+                resultMappings = listOf(
+                    ReferenceMapping(minScore = 28, maxScore = 30, message = "Normal"),
+                    ReferenceMapping(minScore = 0, maxScore = 27, message = "Suspeita de perda cognitiva")
+                )
+            )
+            else -> {
+                // Fallback limits or throw an exception if unexpected
+                TestLimits(
+                    reference = listOf("Referência não definida"),
+                    resultMappings = emptyList()
+                )
+            }
+        }
+    }
+
 
     override fun onCreateView(
         inflater: android.view.LayoutInflater, container: android.view.ViewGroup?,
@@ -105,15 +160,32 @@ class GenericTestFragment : Fragment() {
             if (!allQuestionsAnswered(currentTest)) {
                 Toast.makeText(requireContext(), "Por favor, responda todas as perguntas antes de enviar.", Toast.LENGTH_SHORT).show()
             } else {
+                // For MEEM test (testId == 4), update testLimits based on the education answer.
+                if (currentTest.id == 4) {
+                    // Find the education question (assumed id == 0)
+                    val educationQuestion = currentTest.questions.find { it.id == 0 }
+                    // Determine which alternative is selected
+                    val selectedEducation = educationQuestion?.alternatives?.find { it.isSelected }?.text
+                    if (selectedEducation != null) {
+                        // Update currentTest's testLimits using the helper function.
+                        currentTest = currentTest.copy(
+                            testLimits = getTestLimitsForEducation(selectedEducation)
+                        )
+                    }
+                }
                 val totalScore = answersMap.values.sum()
                 val pdfFilePath = PdfGenerator.generatePdf(requireContext(), currentTest, answersMap, totalScore)
                 if (pdfFilePath != null) {
-                    // Build reference text by joining the list elements with newlines
-                    val referenceText = currentTest.testLimits.reference.joinToString(separator = "\n")
-                    val intent = Intent(requireContext(), PdfPreviewActivity::class.java)
-                    intent.putExtra("pdfFilePath", pdfFilePath)
-                    intent.putExtra("totalScore", totalScore)
-                    intent.putExtra("referenceText", referenceText)
+                    // Compute the final result message based on totalScore
+                    val finalMsg = currentTest.testLimits.resultMappings.find { mapping ->
+                        totalScore in mapping.minScore..mapping.maxScore
+                    }?.message ?: "Sem mensagem definida"
+
+                    val intent = Intent(requireContext(), PdfPreviewActivity::class.java).apply {
+                        putExtra("pdfFilePath", pdfFilePath)
+                        putExtra("totalScore", totalScore)
+                        putExtra("finalMsg", finalMsg)
+                    }
                     startActivity(intent)
                 } else {
                     Toast.makeText(requireContext(), "Erro ao gerar PDF", Toast.LENGTH_SHORT).show()

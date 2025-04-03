@@ -2,27 +2,41 @@ package app.medapp.data
 
 import app.medapp.data.models.AnswerOption
 import app.medapp.data.models.Question
+import app.medapp.data.models.ReferenceMapping
 import app.medapp.data.models.Test
 import app.medapp.data.models.TestLimits
 
 object GDSData {
     val GDSTest = Test(
-        id = 2,
-        testName = "Escala de depressão geriátrica (GDS 15)",
+        id = 3,
+        testName = "Escala de depressão geriátrica GDS 15",
         pacientName = "",
         doctorName = "",
         pacientAge = 0,
         date = "",
         testLimits = TestLimits(
             reference = listOf(
-                "0 a 5 pontos -> normal",
-                "6 a 10 pontos -> indica depressão leve",
-                "11 a 15 pontos -> depressão severa"
+                "Normal: 0 - 5 pontos",
+                "Depressão leve: 6 - 10 pontos",
+                "Depressão severa: 11 - 15 pontos",
             ),
-            cutNumber = 11,
-            greatMsg = "Normal",
-            mediumMsg = "Possível quadro de depressão leve",
-            highMsg = "Possível caso de depressão severa"
+            resultMappings = listOf(
+                ReferenceMapping(
+                    minScore = 0,
+                    maxScore = 5,
+                    message = "Normal"
+                ),
+                ReferenceMapping(
+                    minScore = 6,
+                    maxScore = 10,
+                    message = "Depressão leve"
+                ),
+                ReferenceMapping(
+                    minScore = 11,
+                    maxScore = 15,
+                    message = "Depressão severa"
+                ),
+            )
         ),
         questions = listOf(
             Question(

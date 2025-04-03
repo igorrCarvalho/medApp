@@ -5,21 +5,63 @@ import app.medapp.data.models.Question
 import app.medapp.data.models.Test
 import app.medapp.data.models.TestLimits
 import app.medapp.R
+import app.medapp.data.models.ReferenceMapping
 
 object KATZData {
     val KATZTest = Test(
-        id = 6,
+        id = 2,
         testName = "Índice de KATZ – Atividades Básicas de Vida Diária",
         pacientName = "",
         doctorName = "",
         pacientAge = 0,
         date = "",
         testLimits = TestLimits(
-            reference = listOf("Normal: acima de 27 pontos", "Demência: menor ou igual a 24 pontos; em caso de menos de 4 anos de escolaridade, o ponto de corte passa para 17, em vez de 24."),
-            cutNumber = 24,
-            greatMsg = "Quadro normal",
-            mediumMsg = "Possível caso de demência",
-            highMsg = "Possibilidade alta de demência"
+            reference = listOf(
+                "Independente: 0 pontos",
+                "Dependente para UMA atividade: 1 ponto",
+                "Dependente para DUAS atividades: 2 pontos",
+                "Dependente para TRÊS atividades: 3 pontos",
+                "Dependente para QUATRO atividades: 4 pontos",
+                "Dependente para CINCO atividades: 5 pontos",
+                "Dependente para SEIS atividades: 6 pontos",
+            ),
+            resultMappings = listOf(
+                ReferenceMapping(
+                    minScore = 0,
+                    maxScore = 0,
+                    message = "Independente"
+                ),
+                ReferenceMapping(
+                    minScore = 1,
+                    maxScore = 1,
+                    message = "Dependente para UMA atividade"
+                ),
+                ReferenceMapping(
+                    minScore = 2,
+                    maxScore = 2,
+                    message = "Dependente para DUAS atividades"
+                ),
+                ReferenceMapping(
+                    minScore = 3,
+                    maxScore = 3,
+                    message = "Dependente para TRÊS atividades"
+                ),
+                ReferenceMapping(
+                    minScore = 4,
+                    maxScore = 4,
+                    message = "Dependente para QUATRO atividades"
+                ),
+                ReferenceMapping(
+                    minScore = 5,
+                    maxScore = 5,
+                    message = "Dependente para CINCO atividades"
+                ),
+                ReferenceMapping(
+                    minScore = 6,
+                    maxScore = 6,
+                    message = "Dependente para SEIS atividades"
+                ),
+            )
         ),
         questions = listOf(
             Question(
@@ -68,8 +110,8 @@ object KATZData {
                 )
             ),
             Question(
-                id = 5,
-                text = "5. Alimentação",
+                id = 6,
+                text = "6. Alimentação",
                 alternatives = listOf(
                     AnswerOption("Alimenta-se sem ajuda - (Independente)", 0),
                     AnswerOption("Alimenta-se sozinho, mas recebe ajuda para cortar carne ou passar manteiga no pão - (Necessita de Assistência)", 0),

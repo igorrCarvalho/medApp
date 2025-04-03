@@ -2,23 +2,36 @@ package app.medapp.data
 
 import app.medapp.data.models.AnswerOption
 import app.medapp.data.models.Question
+import app.medapp.data.models.ReferenceMapping
 import app.medapp.data.models.Test
 import app.medapp.data.models.TestLimits
 
 object TinettiData {
     val tinettiTest = Test(
-        id = 1,
+        id = 5,
         testName = "Escala de Avaliação do Equilíbrio e da Marcha de Tinetti",
         pacientName = "",
         doctorName = "",
         pacientAge = 0,
         date = "",
         testLimits = TestLimits(
-            reference = listOf("Score < 19 => 5 vezes mais risco de quedas"),
-            cutNumber = 19,
-            greatMsg = "Baixo Risco de Queda",
-            mediumMsg = "Risco de Queda Iminente",
-            highMsg = "Alto Risco de Queda"
+            reference = listOf(
+                "5 vezes mais risco de quedas: 0 - 19 pontos",
+                "Normal: 20 - 28 pontos",
+                "Quanto maior o score menor risco de quedas"
+            ),
+            resultMappings = listOf(
+                ReferenceMapping(
+                    minScore = 0,
+                    maxScore = 19,
+                    message = "5 vezes mais risco de quedas"
+                ),
+                ReferenceMapping(
+                    minScore = 20,
+                    maxScore = 28,
+                    message = "Normal"
+                ),
+            )
         ),
         questions = listOf(
             Question(

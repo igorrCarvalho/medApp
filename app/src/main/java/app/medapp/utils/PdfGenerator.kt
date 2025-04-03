@@ -34,52 +34,65 @@ object PdfGenerator {
         var yPos = 40f
 
         // Draw header "MedApp" left-aligned
-        canvas.drawText("MedApp", 40f, yPos, textPaint)
+        canvas.drawText("SeniorCare", 40f, yPos, textPaint)
         yPos += 30f
 
         // Draw top purple line for the patient info block
         val blockTopY = yPos
         canvas.drawLine(40f, blockTopY, pageInfo.pageWidth - 40f, blockTopY, linePaint)
 
-        // Draw patient info text
+// Draw patient info text with increased padding
         val pacientLine = "Paciente: ${test.pacientName}"
         val dateLine = "Data: ${test.date}"
         val doctorLine = "Médico Responsável: ${test.doctorName}"
         val ageLine = "Idade do Paciente: ${test.pacientAge}"
-        canvas.drawText("$pacientLine    $dateLine", 40f, blockTopY + 20f, textPaint)
-        canvas.drawText("$doctorLine    $ageLine", 40f, blockTopY + 40f, textPaint)
 
-        // Draw bottom purple line for the patient info block
-        val blockBottomY = blockTopY + 50f
+// Increase vertical offsets to add more padding inside the borders.
+        canvas.drawText("$pacientLine    $dateLine", 40f, blockTopY + 30f, textPaint)
+        canvas.drawText("$doctorLine    $ageLine", 40f, blockTopY + 60f, textPaint)
+
+// Draw bottom purple line for the patient info block with extra spacing
+        val blockBottomY = blockTopY + 90f  // Increased from 50f to 90f for extra padding
         canvas.drawLine(40f, blockBottomY, pageInfo.pageWidth - 40f, blockBottomY, linePaint)
-        yPos = blockBottomY + 30f
+
+// Set new yPos for subsequent elements with extra gap after the bottom border
+        yPos = blockBottomY + 40f  // Increased from 30f to 40f
 
         // Draw test title
         canvas.drawText(test.testName, 40f, yPos, textPaint)
         yPos += 40f
 
         // Draw result line
-        canvas.drawText("Resultado: $totalScore", 40f, yPos, textPaint)
-        yPos += 20f
+        canvas.drawText("Pontuação: $totalScore", 40f, yPos, textPaint)
+        yPos += 50f
 
-        // Draw reference lines (assuming test.testLimits.reference is a list of strings)
-        test.testLimits.reference.forEach { refLine ->
-            canvas.drawText(refLine, 40f, yPos, textPaint)
+        val refLabel = "Referência: "
+        if (test.testLimits.reference.isNotEmpty()) {
+            // Draw the first line: label + first reference text
+            canvas.drawText(refLabel + test.testLimits.reference.first(), 40f, yPos, textPaint)
             yPos += 20f
+
+            // Calculate the width of the label for indentation
+            val indent = textPaint.measureText(refLabel)
+
+            // Draw the remaining reference lines with the same indentation
+            test.testLimits.reference.drop(1).forEach { refLine ->
+                canvas.drawText(refLine, 40f + indent, yPos, textPaint)
+                yPos += 20f
+            }
         }
 
-        // Determine final message based on totalScore (optional logic)
-        val finalMsg = when {
-            totalScore < test.testLimits.cutNumber / 2 -> test.testLimits.highMsg
-            totalScore < test.testLimits.cutNumber     -> test.testLimits.mediumMsg
-            else                                       -> test.testLimits.greatMsg
-        }
-        canvas.drawText("Mensagem: $finalMsg", 40f, yPos, textPaint)
+        // Determine the final message using resultMappings:
+        val finalMsg = test.testLimits.resultMappings.find { mapping ->
+            totalScore in mapping.minScore..mapping.maxScore
+        }?.message ?: "Sem mensagem definida"
+        yPos += 50f
+        canvas.drawText("Resultado: $finalMsg", 40f, yPos, textPaint)
 
         pdfDocument.finishPage(page)
 
         return try {
-            // Save to public Downloads folder so the user can access it
+            // Save the PDF in the public Downloads directory
             val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
             val file = File(downloadsDir, "${test.testName}.pdf")
             pdfDocument.writeTo(FileOutputStream(file))

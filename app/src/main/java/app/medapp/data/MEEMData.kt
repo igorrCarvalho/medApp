@@ -5,6 +5,7 @@ import app.medapp.data.models.Question
 import app.medapp.data.models.Test
 import app.medapp.data.models.TestLimits
 import app.medapp.R
+import app.medapp.data.models.ReferenceMapping
 
 object MEEMData {
     val MEEMTest = Test(
@@ -15,13 +16,35 @@ object MEEMData {
         pacientAge = 0,
         date = "",
         testLimits = TestLimits(
-            reference = listOf("Normal: acima de 27 pontos", "Demência: menor ou igual a 24 pontos; em caso de menos de 4 anos de escolaridade, o ponto de corte passa para 17, em vez de 24."),
-            cutNumber = 24,
-            greatMsg = "Quadro normal",
-            mediumMsg = "Possível caso de demência",
-            highMsg = "Possibilidade alta de demência"
+            reference = listOf(
+                "Normal: 28 - 30 pontos",
+                "Suspeita de perda cognitiva: 0 - 27 pontos",
+            ),
+            resultMappings = listOf(
+                ReferenceMapping(
+                    minScore = 28,
+                    maxScore = 30,
+                    message = "Normal"
+                ),
+                ReferenceMapping(
+                    minScore = 0,
+                    maxScore = 27,
+                    message = "Suspeita de perda cognitiva"
+                ),
+            )
         ),
+
         questions = listOf(
+            Question(
+                id = 0,
+                text = "Qual a escolaridade do paciente (número de anos completos de estudo)?",
+                alternatives = listOf(
+                    AnswerOption("Analfabeto", 0),
+                    AnswerOption("1 a 3 anos", 0),
+                    AnswerOption("4 a 7 anos", 0),
+                    AnswerOption("Acima de 7 anos", 0)
+                )
+            ),
             Question(
                 id = 1,
                 text = "1. Qual é o ano, estação, dia da semana, dia do mês e mês.",

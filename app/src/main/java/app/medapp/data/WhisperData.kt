@@ -5,61 +5,41 @@ import app.medapp.data.models.Question
 import app.medapp.data.models.Test
 import app.medapp.data.models.TestLimits
 import app.medapp.R
+import app.medapp.data.models.ReferenceMapping
 
 object WhisperData {
     val WhisperTest = Test(
-        id = 5,
+        id = 6,
         testName = "Teste do Sussurro (avaliação da audição)",
         pacientName = "",
         doctorName = "",
         pacientAge = 0,
         date = "",
         testLimits = TestLimits(
-            reference = listOf("Normal: acima de 27 pontos", "Demência: menor ou igual a 24 pontos; em caso de menos de 4 anos de escolaridade, o ponto de corte passa para 17, em vez de 24."),
-            cutNumber = 24,
-            greatMsg = "Quadro normal",
-            mediumMsg = "Possível caso de demência",
-            highMsg = "Possibilidade alta de demência"
+            reference = listOf(
+                "Teste negativo: 1 ponto",
+                "Teste positivo para diminuição da acuidade auditiva: 0 pontos"
+            ),
+            resultMappings = listOf(
+                ReferenceMapping(
+                    minScore = 0,
+                    maxScore = 0,
+                    message = "Teste positivo para diminuição da acuidade auditiva"
+                ),
+                ReferenceMapping(
+                    minScore = 1,
+                    maxScore = 1,
+                    message = "Teste negativo"
+                ),
+            )
         ),
         questions = listOf(
             Question(
                 id = 1,
-                text = "1. Compreende a fala em situações sociais?",
+                text = "1. O avaliador deve ficar fora do campo visual da pessoa idosa, a uma distância de aproximadamente 33cm e sussurrar uma frase em cada ouvido do paciente.",
                 alternatives = listOf(
-                    AnswerOption("Paciente não respondeu", 0),
-                    AnswerOption("Paciente respondeu", 1)
-                )
-            ),
-            Question(
-                id = 2,
-                text = "2. Tem necessidade que as pessoas repitam o que lhe é falado?",
-                alternatives = listOf(
-                    AnswerOption("Paciente não respondeu", 0),
-                    AnswerOption("Paciente respondeu", 1)
-                )
-            ),
-            Question(
-                id = 3,
-                text = "3. Sente zumbido ou algum tipo de barulho no ouvido ou cabeça?",
-                alternatives = listOf(
-                    AnswerOption("Paciente não respondeu", 0),
-                    AnswerOption("Paciente respondeu", 1)
-                )
-            ),
-            Question(
-                id = 4,
-                text = "4. Fala alto demais?",
-                alternatives = listOf(
-                    AnswerOption("Paciente não respondeu", 0),
-                    AnswerOption("Paciente respondeu", 1)
-                )
-            ),
-            Question(
-                id = 5,
-                text = "5. Evita conversar? Prefere ficar só?",
-                alternatives = listOf(
-                    AnswerOption("Paciente não respondeu", 0),
-                    AnswerOption("Paciente respondeu", 1)
+                    AnswerOption("Paciente não respondeu/ouviu", 0),
+                    AnswerOption("Paciente respondeu/ouviu", 1)
                 )
             )
         ))

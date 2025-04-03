@@ -26,11 +26,11 @@ class PdfPreviewActivity : AppCompatActivity() {
         // Retrieve extras
         val pdfFilePath = intent.getStringExtra("pdfFilePath")
         val totalScore = intent.getIntExtra("totalScore", 0)
-        val referenceText = intent.getStringExtra("referenceText") ?: ""
+        val referenceText = intent.getStringExtra("finalMsg") ?: ""
 
         // Set text for result and reference
-        txtResult.text = "Resultado: $totalScore"
-        txtReference.text = "Referência: $referenceText"
+        txtResult.text = "Pontuação: $totalScore"
+        txtReference.text = "Resultado: $referenceText"
 
         btnDownload.setOnClickListener {
             pdfFilePath?.let {
