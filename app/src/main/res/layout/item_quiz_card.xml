@@ -26,6 +26,7 @@
             android:textSize="15sp"
             android:textColor="@color/foreground"
             android:textStyle="bold"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:gravity="center"/>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -14,7 +14,7 @@ import android.view.View
 
 class TinettiAdapter(
     private val questions: List<Question>,
-    private val onOptionSelected: (questionId: Int, selectedOption: AnswerOption) -> Unit
+    private val onOptionSelected: (questionId: Int, selectedOption: AnswerOption?) -> Unit
 ) : RecyclerView.Adapter<TinettiAdapter.TinettiViewHolder>() {
 
     inner class TinettiViewHolder(val binding: ItemQuestionBinding) :
@@ -65,6 +65,7 @@ class TinettiAdapter(
                                     onOptionSelected(subQ.id, alt)
                                 } else {
                                     alt.isSelected = false
+                                    onOptionSelected(subQ.id, null)
                                 }
                             }
                         }
@@ -88,6 +89,7 @@ class TinettiAdapter(
                                 onOptionSelected(question.id, option)
                             } else {
                                 option.isSelected = false
+                                onOptionSelected(question.id, null)
                             }
                         }
                     }

@@ -96,6 +96,10 @@ class GenericTestFragment : Fragment() {
         return binding.root
     }
 
+    private fun updateSubmitButtonState() {
+        binding.buttonSubmit.isEnabled = allQuestionsAnswered(currentTest)
+    }
+
     private fun allQuestionsAnswered(test: Test): Boolean {
         test.questions.forEach { question ->
             if (!question.subQuestions.isNullOrEmpty()) {
@@ -113,7 +117,7 @@ class GenericTestFragment : Fragment() {
 
     override fun onViewCreated(view: android.view.View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        updateSubmitButtonState()
         binding.testTitle.text = currentTest.testName
 
         // Capture user input for basic data.
@@ -150,7 +154,12 @@ class GenericTestFragment : Fragment() {
 
         // Setup RecyclerView with questions from the Test object.
         val adapter = TinettiAdapter(currentTest.questions) { questionId, selectedOption ->
-            answersMap[questionId] = selectedOption.value
+            if (selectedOption != null) {
+                answersMap[questionId] = selectedOption.value
+            } else {
+                answersMap.remove(questionId)
+            }
+            updateSubmitButtonState()  // Update button state based on current answers
         }
         binding.recyclerViewTinetti.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewTinetti.adapter = adapter
@@ -183,7 +192,9 @@ class GenericTestFragment : Fragment() {
 
                     val intent = Intent(requireContext(), PdfPreviewActivity::class.java).apply {
                         putExtra("pdfFilePath", pdfFilePath)
-                        putExtra("totalScore", totalScore)
+                        if (currentTest.id != 6) {
+                            putExtra("totalScore", totalScore)
+                        }
                         putExtra("finalMsg", finalMsg)
                     }
                     startActivity(intent)

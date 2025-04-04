@@ -111,7 +111,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Data"
-                        android:inputType="none"
+                        android:inputType="number"
                         android:textColor="@color/foreground"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"/>
@@ -141,7 +141,8 @@
                 android:textColor="@color/foreground"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="10dp"
-                android:textAllCaps="false"/>
+                android:textAllCaps="false"
+                android:backgroundTint="@color/submit_button_tint"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

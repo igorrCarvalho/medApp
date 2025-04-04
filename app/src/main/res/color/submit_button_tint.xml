@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- When the button is disabled -->
+    <item android:state_enabled="false" android:color="@color/purple_200"/>
+    <!-- When the button is enabled -->
+    <item android:state_enabled="true" android:color="@color/purple_500"/>
+</selector>
